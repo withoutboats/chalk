@@ -41,7 +41,7 @@ impl Program {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct Environment {
     pub universe: UniverseIndex,
     pub clauses: Vec<WhereClause>,
@@ -112,7 +112,7 @@ impl Environment {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct InEnvironment<G> {
     pub environment: Arc<Environment>,
     pub goal: G,
@@ -257,7 +257,7 @@ pub struct AssociatedTyValueBound {
     pub where_clauses: Vec<WhereClause>,
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum Ty {
     /// References the binding at the given depth (deBruijn index
     /// style). In an inference context (i.e., when solving goals),
@@ -270,7 +270,7 @@ pub enum Ty {
 
 /// for<'a...'z> X -- all binders are instantiated at once,
 /// and we use deBruijn indices within `self.ty`
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct QuantifiedTy {
     pub num_binders: usize,
     pub ty: Ty
@@ -283,13 +283,13 @@ pub enum Lifetime {
     ForAll(UniverseIndex),
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct ApplicationTy {
     pub name: TypeName,
     pub parameters: Vec<Parameter>,
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum ParameterKind<T, L = T, C = T> {
     Ty(T),
     Lifetime(L),
@@ -351,25 +351,25 @@ impl<T, L, C> ast::Kinded for ParameterKind<T, L, C> {
 
 pub type Parameter = ParameterKind<Ty, Lifetime, Krate>;
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct ProjectionTy {
     pub associated_ty_id: ItemId,
     pub parameters: Vec<Parameter>,
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct TraitRef {
     pub trait_id: ItemId,
     pub parameters: Vec<Parameter>,
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum WhereClause {
     Implemented(TraitRef),
     Normalize(Normalize),
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum WhereClauseGoal {
     Implemented(TraitRef),
     Normalize(Normalize),
@@ -383,31 +383,31 @@ pub enum WhereClauseGoal {
     NotUnifyTys(Not<Unify<Ty>>),
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum WellFormed {
     Ty(Ty),
     TraitRef(TraitRef),
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct LocalTo<F> {
     pub value: F,
     pub krate: Krate,
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct Unify<T> {
     pub a: T,
     pub b: T,
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct Not<T> {
     pub predicate: T,
     pub krate: Krate,
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct Normalize {
     pub projection: ProjectionTy,
     pub ty: Ty,
@@ -420,7 +420,7 @@ pub struct Normalize {
 ///
 /// (IOW, we use deBruijn indices, where binders are introduced in
 /// reverse order of `self.binders`.)
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct Binders<T> {
     pub binders: Vec<ParameterKind<()>>,
     pub value: T,
@@ -476,7 +476,7 @@ impl<T> Query<T> {
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Constrained<T> {
     pub value: T,
-    pub constraints: Vec<Constraint>,
+    pub constraints: Vec<InEnvironment<Constraint>>,
 }
 
 impl<T> Constrained<T> {
@@ -487,7 +487,7 @@ impl<T> Constrained<T> {
     }
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum Goal {
     /// Introduces a binding at depth 0, shifting other bindings up
     /// (deBruijn index).
@@ -497,7 +497,7 @@ pub enum Goal {
     Leaf(WhereClauseGoal),
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum QuantifierKind {
     ForAll, Exists
 }
