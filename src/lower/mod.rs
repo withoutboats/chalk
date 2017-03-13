@@ -454,6 +454,7 @@ impl LowerWhereClause<ir::WhereClause> for WhereClause {
             WhereClause::LocalTo { .. } |
             WhereClause::UnifyTys { .. } |
             WhereClause::UnifyKrates { .. } |
+            WhereClause::UnifyLifetimes { .. } |
             WhereClause::NotImplemented { .. } => {
                 bail!("this form of where-clause not allowed here")
             }
@@ -500,6 +501,12 @@ impl LowerWhereClause<ir::WhereClauseGoal> for WhereClause {
                 }.cast()
             }
             WhereClause::UnifyKrates { ref a, ref b } => {
+                ir::Unify {
+                    a: a.lower(env)?,
+                    b: b.lower(env)?,
+                }.cast()
+            }
+            WhereClause::UnifyLifetimes { ref a, ref b } => {
                 ir::Unify {
                     a: a.lower(env)?,
                     b: b.lower(env)?,

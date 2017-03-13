@@ -545,9 +545,7 @@ fn region_equality() {
                         value: [
                             Ref<'!1, Unit>: Eq<Ref<'!1, Unit>>
                         ],
-                        constraints: [
-                            (Env(U1, []) |- LifetimeEq('!1, '!1))
-                        ]
+                        constraints: []
                     },
                     binders: []
                 }
@@ -586,10 +584,7 @@ fn forall_equality() {
                         value: [
                             for<2> Ref<'?0, Ref<'?1, Unit>>: Eq<for<2> Ref<'?0, Ref<'?1, Unit>>>
                         ],
-                        constraints: [
-                            (Env(U2, []) |- LifetimeEq('!1, '!1)),
-                            (Env(U2, []) |- LifetimeEq('!2, '!2))
-                        ]
+                        constraints: []
                     },
                     binders: []
                 }
@@ -613,9 +608,7 @@ fn forall_equality() {
                             for<2> Ref<'?0, Ref<'?1, Ref<'?0, Unit>>>: Eq<for<2> Ref<'?0, Ref<'?1, Ref<'?1, Unit>>>>
                         ],
                         constraints: [
-                            (Env(U2, []) |- LifetimeEq('!1, '!1)),
-                            (Env(U2, []) |- LifetimeEq('!2, '!1)),
-                            (Env(U2, []) |- LifetimeEq('!2, '!2))
+                            (Env(U2, []) |- LifetimeEq('!2, '!1))
                         ]
                     },
                     binders: []
@@ -801,9 +794,7 @@ fn atc1() {
                         value: [
                             <Vec<!1> as Iterable>::Iter<'!2> ==> Iter<'!2, !1>
                         ],
-                        constraints: [
-                            (Env(U2, []) |- LifetimeEq('!2, '!2))
-                        ]
+                        constraints: []
                     },
                     binders: []
                 }
@@ -1169,9 +1160,7 @@ fn normalize_under_binder() {
                         value: [
                             <Ref<'!1, I32> as Id<'!1>>::Item ==> Ref<'!1, I32>
                         ],
-                        constraints: [
-                            (Env(U1, []) |- LifetimeEq('!1, '!1))
-                        ]
+                        constraints: []
                     },
                     binders: []
                 }
@@ -1195,11 +1184,45 @@ fn normalize_under_binder() {
                         value: [
                             <Ref<'!1, I32> as Id<'!1>>::Item ==> Ref<'!1, I32>
                         ],
-                        constraints: [
-                            (Env(U1, []) |- LifetimeEq('!1, '!1))
-                        ]
+                        constraints: []
                     },
                     binders: []
+                }
+            }"
+        }
+    }
+}
+
+#[test]
+fn unify_quantified_lifetimes() {
+    test! {
+        program {
+        }
+
+        // Check that `'a` (here, `'?0`) is not unified
+        // with `'!1`, because they belong to incompatible
+        // universes.
+        goal {
+            exists<'a> {
+                forall<'b> {
+                    'a = 'b
+                }
+            }
+        } yields {
+            "Solution {
+                successful: Yes,
+                refined_goal: Query {
+                    value: Constrained {
+                        value: [
+                            ('?0 = '!1)
+                        ],
+                        constraints: [
+                            (Env(U1, []) |- LifetimeEq('?0, '!1))
+                        ]
+                    },
+                    binders: [
+                        U0
+                    ]
                 }
             }"
         }
