@@ -1,24 +1,20 @@
-extern crate rustyline;
-extern crate chalk_parse;
-extern crate chalk;
+use io::Read from std;
+use fs::File from std;
+use sync::Arc from std;
 
-#[macro_use]
-extern crate error_chain;
+use error_chain from error_chain;
+use {self, errors as parse_errors} from chalk_parse;
+use error::ReadlineError from rustyline;
+use Editor from rustyline;
 
-use std::io::Read;
-use std::fs::File;
-use std::sync::Arc;
-
-use chalk::ir;
-use chalk::lower::*;
-use chalk::solve::solver::{self, Solver, CycleStrategy};
-
-use rustyline::error::ReadlineError;
+use {ir, errors as chalk_errors} from chalk;
+use * from chalk::lower;
+use solver::{self, Solver, CycleStrategy} from chalk::solve;
 
 error_chain! {
     links {
-        Parse(chalk_parse::errors::Error, chalk_parse::errors::ErrorKind);
-        Chalk(chalk::errors::Error, chalk::errors::ErrorKind);
+        Parse(parse_errors::Error, parse_errors::ErrorKind);
+        Chalk(chalk_errors::Error, chalk_errors::ErrorKind);
     }
 
     foreign_links {
@@ -49,7 +45,7 @@ fn run() -> Result<()> {
     solver::set_overflow_depth(overflow_depth);
 
     let mut prog = None;
-    readline_loop(&mut rustyline::Editor::new(), "?- ", |rl, line| {
+    readline_loop(&mut Editor::new(), "?- ", |rl, line| {
         if let Err(e) = process(line, rl, &mut prog) {
             println!("error: {}", e);
         }
@@ -57,8 +53,8 @@ fn run() -> Result<()> {
 }
 
 /// Repeatedly calls `f`, passing in each line, using the given promt, until EOF is received
-fn readline_loop<F>(rl: &mut rustyline::Editor<()>, prompt: &str, mut f: F) -> Result<()>
-    where F: FnMut(&mut rustyline::Editor<()>, &str)
+fn readline_loop<F>(rl: &mut Editor<()>, prompt: &str, mut f: F) -> Result<()>
+    where F: FnMut(&mut Editor<()>, &str)
 {
     loop {
         match rl.readline(prompt) {
@@ -75,7 +71,7 @@ fn readline_loop<F>(rl: &mut rustyline::Editor<()>, prompt: &str, mut f: F) -> R
 }
 
 /// Process a single command
-fn process(command: &str, rl: &mut rustyline::Editor<()>, prog: &mut Option<Program>) -> Result<()> {
+fn process(command: &str, rl: &mut Editor<()>, prog: &mut Option<Program>) -> Result<()> {
     if command == "help" {
         help()
     } else if command == "program" {
@@ -110,7 +106,7 @@ fn help() {
     println!("  <goal>       attempt to solve <goal>");
 }
 
-fn read_program(rl: &mut rustyline::Editor<()>) -> Result<String> {
+fn read_program(rl: &mut Editor<()>) -> Result<String> {
     println!("Enter a program; press Ctrl-D when finished");
     let mut text = String::new();
     readline_loop(rl, "| ", |_, line| {

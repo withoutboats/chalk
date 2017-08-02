@@ -1,5 +1,6 @@
-use ir::*;
-use std::marker::PhantomData;
+use marker::PhantomData from std;
+
+use ir::* from crate;
 
 pub trait Cast<T>: Sized {
     fn cast(self) -> T;

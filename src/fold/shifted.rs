@@ -1,5 +1,5 @@
-use errors::*;
-use super::{Fold, Folder, Shifter};
+use errors::* from crate;
+use {Fold, Folder, Shifter} from super;
 
 /// Sometimes we wish to fold two values with a distinct deBruijn
 /// depth (i.e., you want to fold `(A, B)` where A is defined under N

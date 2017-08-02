@@ -1,9 +1,10 @@
-use errors::*;
-use std::sync::Arc;
+use Cell from std::cell;
+use Arc from std::sync;
 
-use super::*;
-use solve::fulfill::Fulfill;
-use std::cell::Cell;
+use errors::* from crate;
+
+use * from super;
+use fulfill::Fulfill;
 
 thread_local! {
     // Default overflow depth which will be used in tests

@@ -1,5 +1,7 @@
-use fold::*;
-use super::*;
+#![cfg(test)]
+
+use * from crate::fold;
+use * from super;
 
 macro_rules! ty {
     (apply $n:tt $($arg:tt)*) => {

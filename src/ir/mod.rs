@@ -1,9 +1,15 @@
+use collections::{HashSet, HashMap, BTreeMap} from std;
+use sync::Arc from std;
+
+use ast from chalk_parse;
+use InternedString from lalrpop_intern;
+
 use cast::Cast;
-use chalk_parse::ast;
-use lalrpop_intern::InternedString;
 use solve::infer::{TyInferenceVariable, LifetimeInferenceVariable};
-use std::collections::{HashSet, HashMap, BTreeMap};
-use std::sync::Arc;
+
+pub use debug;
+pub use tls::set_current_program;
+pub use tls::with_current_program;
 
 pub type Identifier = InternedString;
 
@@ -654,8 +660,3 @@ pub struct ConstrainedSubst {
     pub constraints: Vec<InEnvironment<Constraint>>,
 }
 
-pub mod debug;
-mod tls;
-
-pub use self::tls::set_current_program;
-pub use self::tls::with_current_program;

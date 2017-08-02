@@ -1,10 +1,10 @@
-use errors::*;
-use fold::{Fold, Folder, Shifter};
-use ir::*;
+use * from crate::errors;
+use Fold, Folder, Shifter} from crate::fold;
+use * from crate::ir;
 
-use super::{InferenceTable, TyInferenceVariable, LifetimeInferenceVariable,
-            ParameterInferenceVariable};
-use super::var::InferenceValue;
+use {InferenceTable, TyInferenceVariable, LifetimeInferenceVariable,
+            ParameterInferenceVariable} from super;
+use var::InferenceValue from super;
 
 impl InferenceTable {
     /// Given a value `value` with variables in it, replaces those variables

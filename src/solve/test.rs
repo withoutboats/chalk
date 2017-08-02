@@ -1,9 +1,13 @@
-use chalk_parse;
-use errors::*;
-use ir;
-use lower::*;
-use solve::solver::{self, Solver, CycleStrategy};
-use std::sync::Arc;
+#![cfg(test)]
+
+use Arc from std::sync;
+
+use self from chalk_parse;
+
+use errors::* from crate;
+use ir from crate;
+use lower::* from crate;
+use solve::solver::{self, Solver, CycleStrategy} from crate;
 
 fn parse_and_lower_program(text: &str) -> Result<ir::Program> {
     chalk_parse::parse_program(text)?.lower()

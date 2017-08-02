@@ -1,8 +1,10 @@
-use ena::unify::{UnifyKey, UnifyValue};
-use ir::*;
-use std::cmp::min;
-use std::fmt::{self, Debug};
-use std::u32;
+use min from std::cmp;
+use {self, Debug} from std::fmt;
+use u32 from std;
+
+use unify::{UnifyKey, UnifyValue} from ena;
+
+use ir::* from crate;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct TyInferenceVariable {

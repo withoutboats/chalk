@@ -1,13 +1,16 @@
-use super::*;
-use errors::*;
-use fold::Fold;
-use solve::infer::{InferenceTable, UnificationResult, ParameterInferenceVariable};
-use solve::infer::{TyInferenceVariable, LifetimeInferenceVariable};
-use solve::solver::Solver;
-use std::collections::HashSet;
-use std::fmt::Debug;
-use std::sync::Arc;
-use zip::Zip;
+use collections::HashSet from std;
+use fmt::Debug from std;
+use sync::Arc from std;
+
+use errors::* from crate;
+use fold::Fold from crate;
+use zip::Zip from crate;
+
+use * from super;
+
+use infer::{InferenceTable, UnificationResult, ParameterInferenceVariable};
+use infer::{TyInferenceVariable, LifetimeInferenceVariable};
+use solver::Solver;
 
 enum Outcome {
     Complete,

@@ -1,5 +1,6 @@
-use std::fmt::{Debug, Formatter, Error};
+use {Debug, Formatter, Error} from std::fmt;
 
+use * from super;
 use super::*;
 
 impl Debug for ItemId {

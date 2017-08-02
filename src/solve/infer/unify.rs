@@ -1,11 +1,12 @@
-use cast::Cast;
-use ir::*;
-use std::fmt::Debug;
-use std::sync::Arc;
-use zip::{Zip, Zipper};
+use Debug from std::fmt;
+use Arc from std::sync;
 
-use super::*;
-use super::var::*;
+use cast::Cast from crate;
+use ir::* from crate;
+use zip::{Zip, Zipper} from crate;
+
+use * from super;
+use * from super::var;
 
 impl InferenceTable {
     pub fn unify<T>(&mut self,

@@ -1,6 +1,7 @@
-use fold::*;
-use std::fmt::Debug;
+use Debug from std::fmt;
+use * from crate::fold;
 
+use * from super;
 use super::*;
 
 impl InferenceTable {

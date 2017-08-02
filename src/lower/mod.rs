@@ -1,14 +1,11 @@
-use std::collections::HashMap;
+use collections::HashMap from std;
 
-use chalk_parse::ast::*;
-use lalrpop_intern::intern;
+use ast::* from chalk_parse;
+use intern from lalrpop_intern;
 
-use cast::{Cast, Caster};
-use errors::*;
-use ir;
-
-mod test;
-mod default;
+use cast::{Cast, Caster} from crate;
+use errors::* from crate;
+use ir from crate;
 
 type TypeIds = HashMap<ir::Identifier, ir::ItemId>;
 type TypeKinds = HashMap<ir::ItemId, ir::TypeKind>;

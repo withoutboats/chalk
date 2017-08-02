@@ -1,16 +1,11 @@
-use ena::unify as ena;
-use errors::*;
-use ir::*;
+use unify from ena as ena;
 
-mod instantiate;
-mod canonicalize;
-mod unify;
-mod var;
-#[cfg(test)] mod test;
+use * from crate::errors;
+use * from crate::ir;
 
-pub use self::unify::UnificationResult;
-pub use self::var::{TyInferenceVariable, LifetimeInferenceVariable};
-use self::var::*;
+pub use unify::UnificationResult;
+pub use var::{TyInferenceVariable, LifetimeInferenceVariable};
+use var::*;
 
 #[derive(Clone)]
 pub struct InferenceTable {

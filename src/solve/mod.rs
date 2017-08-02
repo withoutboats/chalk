@@ -1,11 +1,9 @@
-use std::fmt;
-use ir::*;
+use fmt from std;
+use ir::* from crate;
 
-pub mod fulfill;
-pub mod infer;
-pub mod solver;
-
-#[cfg(test)] mod test;
+pub use fulfill;
+pub use infer;
+pub use solver;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 /// A (possible) solution for a proposed goal. Usually packaged in a `Result`,

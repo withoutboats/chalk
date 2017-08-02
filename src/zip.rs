@@ -1,6 +1,7 @@
-use errors::*;
-use ir::*;
-use std::sync::Arc;
+use sync::Arc from std;
+
+use errors::* from crate;
+use ir::* from crate;
 
 pub trait Zipper {
     fn zip_tys(&mut self, a: &Ty, b: &Ty) -> Result<()>;

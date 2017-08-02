@@ -1,10 +1,12 @@
 #![cfg(test)]
 
-use chalk_parse;
-use errors::*;
-use ir::*;
-use std::sync::Arc;
-use super::{LowerProgram, LowerGoal};
+use Arc from std::sync;
+
+use self from chalk_parse;
+
+use * from crate::errors;
+use * from crate::ir;
+use {LowerProgram, LowerGoal} from super;
 
 macro_rules! lowering_success {
     (program $program:tt) => {

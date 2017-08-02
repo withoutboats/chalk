@@ -1,16 +1,13 @@
-use errors::*;
-use ir::*;
-use std::fmt::Debug;
-use std::sync::Arc;
-use std::collections::BTreeMap;
+use BTreeMap from std::collections;
+use Debug from std::fmt;
+use Arc from std::sync;
 
-mod instantiate;
-mod shifted;
-mod shifter;
+use * from crate::errors;
+use * from crate::ir;
 
-pub use self::shifted::Shifted;
-pub use self::shifter::Shifter;
-pub use self::instantiate::Subst;
+pub use shifted::Shifted;
+pub use shifter::Shifter;
+pub use instantiate::Subst;
 
 pub trait Folder {
     fn fold_free_var(&mut self, depth: usize, binders: usize) -> Result<Ty>;

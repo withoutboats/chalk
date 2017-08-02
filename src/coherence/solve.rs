@@ -1,9 +1,10 @@
-use std::sync::Arc;
+use Arc from std::sync;
 
-use itertools::Itertools;
-use errors::*;
-use ir::*;
-use solve::solver::{self, Solver, CycleStrategy};
+use Itertools from itertools;
+
+use * from crate::errors;
+use * from crate::ir;
+use solver::{self, Solver, CycleStrategy} from crate::solve;
 
 impl Program {
     pub(super) fn visit_specializations<F>(&self, mut record_specialization: F) -> Result<()>

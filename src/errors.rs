@@ -1,5 +1,7 @@
-use chalk_parse::{self, ast};
-use ir;
+use ast from chalk_parse;
+use self from chalk_parse;
+
+use ir from crate;
 
 error_chain! {
     links {

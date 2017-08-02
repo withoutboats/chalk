@@ -1,6 +1,6 @@
-use ir::*;
-use solve::infer::InferenceTable;
-use cast::Cast;
+use ir::* from crate;
+use solve::infer::InferenceTable from crate;
+use cast::Cast from crate;
 
 impl Program {
     pub(super) fn add_default_impls(&mut self) {

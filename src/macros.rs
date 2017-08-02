@@ -1,4 +1,4 @@
-use std::cell::Cell;
+use Cell from std::cell;
 
 lazy_static! {
     pub static ref DEBUG_ENABLED: bool = {

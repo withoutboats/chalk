@@ -1,10 +1,7 @@
-use petgraph::prelude::*;
+use prelude::* from petgraph;
 
-use errors::Result;
-use ir::{Program, ItemId};
-
-mod solve;
-
+use errors::Result from crate;
+use ir::{Program, ItemId} from crate;
 
 impl Program {
     pub fn record_specialization_priorities(&mut self) -> Result<()> {

@@ -1,6 +1,5 @@
-use ir::*;
-
-use super::*;
+use * from crate::ir;
+use * from super;
 
 pub struct Subst<'s> {
     /// Values to substitute. A reference to a free variable with
